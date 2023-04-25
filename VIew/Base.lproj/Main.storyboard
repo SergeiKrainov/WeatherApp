@@ -27,9 +27,6 @@
                                 <state key="normal" title="Узнать погоду">
                                     <color key="titleColor" red="0.97254901959999995" green="0.97254901959999995" blue="0.97254901959999995" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
-                                <connections>
-                                    <action selector="takeLocation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="7LP-i3-hq1"/>
-                                </connections>
                             </button>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ГОРОД" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1zh-4y-nWF">
                                 <rect key="frame" x="20" y="115.99999999999999" width="353" height="32.333333333333329"/>

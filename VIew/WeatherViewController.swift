@@ -44,8 +44,9 @@ final class WeatherViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        
         presenter.setUpDelegate(delegate: self)
         button.layer.cornerRadius = 51
         detailButton.layer.cornerRadius = CGFloat(detailButton.frame.size.height / 2)
@@ -64,7 +65,7 @@ final class WeatherViewController: UIViewController {
             self.temperatureLabel.text = "\(weather.tempeature) °C"
             self.conditionLabel.text = weather.conditionString
             let weatherImage = UIView(SVGURL: url) { image in
-                image.resizeToFit(self.iconView.bounds)
+                image.resizeToFit(self.iconView.frame)
             }
             self.iconView.addSubview(weatherImage)
             self.cityNameLabel.isHidden = false
@@ -76,7 +77,7 @@ final class WeatherViewController: UIViewController {
     }
     
     
-    @IBAction func takeLocation(_ sender: UIButton) {
+    @objc func takeLocation() {
         button.isHidden = true
         indicator.startAnimating()
         indicator.isHidden = false
@@ -91,9 +92,26 @@ final class WeatherViewController: UIViewController {
         present(vc, animated: true)
     }
     
+    @objc func buttonAction() {
+        button.isHidden = true
+        indicator.startAnimating()
+        indicator.isHidden = false
+        isLoaded = true
+    }
+    
 }
 
 extension WeatherViewController: CLLocationManagerDelegate {
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        if manager.authorizationStatus == .denied {
+            userLat = 55.751244
+            userLon = 37.618423
+            button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
+        } else {
+            button.addTarget(self, action: #selector(takeLocation), for: .touchUpInside)
+        }
+    }
+    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.first {
             let latitude = location.coordinate.latitude
